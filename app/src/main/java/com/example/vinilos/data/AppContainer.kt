@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class AppContainer {
     // Retrofit Config
     private val BASE_URL =
-        "http://localhost:3000"
+        "https://vynilsbe.onrender.com"
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -22,8 +22,6 @@ class AppContainer {
 
     // Repositories
     val albumesRepository: AlbumesRepository by lazy {
-        val mockAlbumesServiceAdapter = MockAlbumesApiService
-        // TODO: Replace for real service adapter (albumesServiceAdapter)
-        AlbumesRepository(mockAlbumesServiceAdapter)
+        AlbumesRepository(albumesServiceAdapter)
     }
 }
