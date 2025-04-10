@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.vinilos.VinilosApplication
+import com.example.vinilos.data.entities.Album
 import com.example.vinilos.data.models.Response
 import com.example.vinilos.data.repositories.AlbumesRepository
 import com.example.vinilos.ui.state.AlbumesUiState
@@ -26,6 +27,11 @@ class AlbumesViewModel(
     }
 
     fun getAlbumes() {
+        _uiState.update {
+            it.copy(
+                albumesResponse = Response.Loading()
+            )
+        }
         viewModelScope.launch {
             try {
                 val albumes = albumesRepository.getAlbumes()
@@ -41,6 +47,23 @@ class AlbumesViewModel(
                     )
                 }
             }
+        }
+    }
+
+    fun filterAlbums(albums: List<Album>): List<Album> {
+        val albumSearchTerm = _uiState.value.albumSearchTerm
+        if (albumSearchTerm.isEmpty()) return albums
+
+        return albums.filter {
+            it.name.contains(albumSearchTerm, ignoreCase = true)
+        }
+    }
+
+    fun setAlbumSearchTerm(searchTerm: String) {
+        _uiState.update {
+            it.copy(
+                albumSearchTerm = searchTerm
+            )
         }
     }
 

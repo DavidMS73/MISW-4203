@@ -59,6 +59,7 @@ fun VinilosHome(
             0 -> AlbumesScreen(
                 innerPadding = innerPadding,
                 albumesUiState = albumesUiState,
+                viewModel = albumesViewModel,
             )
             1 -> ColeccionistasScreen(
                 innerPadding = innerPadding,
