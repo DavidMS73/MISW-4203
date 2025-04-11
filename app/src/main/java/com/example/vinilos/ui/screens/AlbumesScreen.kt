@@ -44,6 +44,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -60,10 +61,10 @@ import com.example.vinilos.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumesScreen(
-    innerPadding: PaddingValues,
     albumesUiState: AlbumesUiState,
     viewModel: AlbumesViewModel,
     modifier: Modifier = Modifier,
+    innerPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     val albumesResponse = albumesUiState.albumesResponse
 
@@ -113,6 +114,7 @@ fun AlbumesScreen(
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 16.dp)
+                        .testTag("AlbumesSuccessScreen")
                 ) {
                     Spacer(modifier = Modifier.height(12.dp))
                     OutlinedTextField(
@@ -127,7 +129,9 @@ fun AlbumesScreen(
                                     onClick = {
                                         viewModel.setAlbumSearchTerm("")
                                         focusManager.clearFocus()
-                                    }
+                                    },
+                                    modifier = Modifier
+                                        .testTag("ClearButton")
                                 ) {
                                     Icon(
                                         Icons.Filled.Cancel, contentDescription = null,
@@ -153,6 +157,7 @@ fun AlbumesScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .focusRequester(focusRequester)
+                            .testTag("AlbumesSearchTextField")
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     if (albums.isEmpty())
@@ -169,6 +174,7 @@ fun AlbumesScreen(
                             albums = albums,
                             modifier = Modifier
                                 .weight(1f)
+                                .testTag("AlbumesList")
                         )
                 }
             }
@@ -227,7 +233,8 @@ fun AlbumCard(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
+        modifier = modifier
+            .testTag("AlbumCard"),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
