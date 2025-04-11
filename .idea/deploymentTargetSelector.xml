@@ -17,6 +17,9 @@
       <SelectionState runConfigName="albumesScreen_searchForAlbum_clearSearch()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="AlbumesScreenTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

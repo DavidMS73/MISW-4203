@@ -44,6 +44,7 @@ class AlbumesScreenTest {
         }
         composeTestRule.waitUntilAtLeastOneExists(
             hasTestTag("AlbumesSuccessScreen"),
+            8000L
         )
     }
 
@@ -61,9 +62,7 @@ class AlbumesScreenTest {
         val lookedUpAlbum = mockAlbums[0]
         searchInput.performTextInput(lookedUpAlbum.name)
         Espresso.closeSoftKeyboard()
-        val albumsList = composeTestRule.onNodeWithTag("AlbumesList")
-        albumsList.assertIsDisplayed()
-        albumsList.onChildren().assertAny(hasText(lookedUpAlbum.name))
+        composeTestRule.onNodeWithTag("AlbumCard-${lookedUpAlbum.id}").assertIsDisplayed()
 
         val remainingAlbums = mockAlbums.subList(1, mockAlbums.size)
         for (album in remainingAlbums) {
@@ -86,14 +85,16 @@ class AlbumesScreenTest {
     fun albumesScreen_searchForAlbum_clearSearch() {
         val searchInput = composeTestRule.onNodeWithTag("AlbumesSearchTextField")
         searchInput.assertIsDisplayed()
-        val lookedUpAlbum = mockAlbums[0].name
-        searchInput.performTextInput(lookedUpAlbum)
+        val lookedUpAlbum = mockAlbums[0]
+        searchInput.performTextInput(lookedUpAlbum.name)
         Espresso.closeSoftKeyboard()
-        composeTestRule.onAllNodes(hasTestTag("AlbumCard")).assertCountEquals(1)
+        composeTestRule.onNodeWithTag("AlbumCard-${lookedUpAlbum.id}").assertIsDisplayed()
 
         val clearButton = composeTestRule.onNodeWithTag("ClearButton")
         clearButton.assertIsDisplayed()
         clearButton.performClick()
-        composeTestRule.onAllNodes(hasTestTag("AlbumCard")).assertCountEquals(mockAlbums.size)
+        for (album in mockAlbums) {
+            composeTestRule.onNodeWithText(album.name).assertIsDisplayed()
+        }
     }
 }

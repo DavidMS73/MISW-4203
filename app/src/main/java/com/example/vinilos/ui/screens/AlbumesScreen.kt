@@ -234,7 +234,7 @@ fun AlbumCard(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .testTag("AlbumCard"),
+            .testTag("AlbumCard-${album.id}"),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
