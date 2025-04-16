@@ -174,7 +174,7 @@ fun ArtistasScreen(
                         .weight(1f)
                         .fillMaxWidth()
                 ) {
-                    Text(text = "Error al consultar los álbumes")
+                    Text(text = "Error al consultar los artistas")
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = { viewModel.getPerformers() }) {
