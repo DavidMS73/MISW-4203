@@ -1,8 +1,10 @@
 package com.example.vinilos.data
 
 import com.example.vinilos.data.datasources.AlbumesApiService
+import com.example.vinilos.data.datasources.PerformerApiService
 import com.example.vinilos.data.datasources.mock.MockAlbumesApiService
 import com.example.vinilos.data.repositories.AlbumesRepository
+import com.example.vinilos.data.repositories.PerformerRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,8 +22,17 @@ class AppContainer {
         retrofit.create(AlbumesApiService::class.java)
     }
 
+    private val performersServiceAdapter: PerformerApiService by lazy {
+        retrofit.create(PerformerApiService::class.java)
+    }
+
     // Repositories
     val albumesRepository: AlbumesRepository by lazy {
         AlbumesRepository(albumesServiceAdapter)
+    }
+
+    // Repositories
+    val performersRepository: PerformerRepository by lazy {
+        PerformerRepository(performersServiceAdapter)
     }
 }

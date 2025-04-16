@@ -20,7 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.vinilos.ui.models.BottomNavRoute
 import com.example.vinilos.ui.state.AlbumesUiState
+import com.example.vinilos.ui.state.PerformersUiState
 import com.example.vinilos.ui.viewmodels.AlbumesViewModel
+import com.example.vinilos.ui.viewmodels.PerformersViewModel
 
 val routes = listOf(
     BottomNavRoute(
@@ -42,6 +44,8 @@ fun VinilosHome(
     navController: NavController,
     albumesViewModel: AlbumesViewModel,
     albumesUiState: AlbumesUiState,
+    performersViewModel: PerformersViewModel,
+    performersUiState: PerformersUiState,
 ) {
     var selectedIdx by rememberSaveable { mutableIntStateOf(0) }
 
@@ -66,6 +70,8 @@ fun VinilosHome(
             )
             2 -> ArtistasScreen(
                 innerPadding = innerPadding,
+                performersUiState = performersUiState,
+                viewModel = performersViewModel
             )
         }
     }

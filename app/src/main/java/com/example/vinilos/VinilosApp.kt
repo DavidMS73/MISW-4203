@@ -12,13 +12,16 @@ import androidx.navigation.compose.rememberNavController
 import com.example.vinilos.ui.navigation.Home
 import com.example.vinilos.ui.screens.VinilosHome
 import com.example.vinilos.ui.viewmodels.AlbumesViewModel
+import com.example.vinilos.ui.viewmodels.PerformersViewModel
 
 @Composable
 fun VinilosApp(
     navController: NavHostController = rememberNavController(),
     albumesViewModel: AlbumesViewModel = viewModel(factory = AlbumesViewModel.Factory),
+    performersViewModel: PerformersViewModel = viewModel(factory = PerformersViewModel.Factory)
 ) {
     val albumesUiState = albumesViewModel.uiState.collectAsState().value
+    val performersUiState = performersViewModel.uiState.collectAsState().value
 
     NavHost(
         navController = navController,
@@ -30,6 +33,8 @@ fun VinilosApp(
                 navController = navController,
                 albumesViewModel = albumesViewModel,
                 albumesUiState = albumesUiState,
+                performersViewModel = performersViewModel,
+                performersUiState = performersUiState
             )
         }
     }
