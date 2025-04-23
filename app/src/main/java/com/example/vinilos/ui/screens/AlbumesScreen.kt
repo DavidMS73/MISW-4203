@@ -1,6 +1,5 @@
 package com.example.vinilos.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +30,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -70,6 +68,8 @@ fun AlbumesScreen(
 
     Column(
         modifier = modifier
+            .fillMaxSize()
+            .padding(bottom = innerPadding.calculateBottomPadding())
     ) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
@@ -113,7 +113,6 @@ fun AlbumesScreen(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(horizontal = 16.dp)
                         .testTag("AlbumesSuccessScreen")
                 ) {
                     Spacer(modifier = Modifier.height(12.dp))
@@ -144,7 +143,6 @@ fun AlbumesScreen(
                             Text(text = "Buscar álbumes")
                         },
                         onValueChange = {
-                            Log.d("AlbumesScreen", "onValueChange: $it")
                             viewModel.setAlbumSearchTerm(it)
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -156,6 +154,7 @@ fun AlbumesScreen(
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
                             .focusRequester(focusRequester)
                             .testTag("AlbumesSearchTextField")
                     )
@@ -218,6 +217,7 @@ fun AlbumesList(
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
         modifier = modifier,
     ) {
         items(albums) {

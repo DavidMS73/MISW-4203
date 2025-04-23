@@ -1,11 +1,11 @@
 package com.example.vinilos.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -69,6 +69,8 @@ fun ArtistasScreen(
 
     Column(
         modifier = modifier
+            .fillMaxSize()
+            .padding(bottom = innerPadding.calculateBottomPadding())
     ) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
@@ -105,7 +107,6 @@ fun ArtistasScreen(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(horizontal = 16.dp)
                         .testTag("PerformersSuccessScreen")
                 ) {
                     Spacer(modifier = Modifier.height(12.dp))
@@ -134,7 +135,6 @@ fun ArtistasScreen(
                             Text(text = "Buscar artistas")
                         },
                         onValueChange = {
-                            Log.d("ArtistasScreen", "onValueChange: $it")
                             viewModel.setPerformerSearchTerm(it)
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -146,6 +146,7 @@ fun ArtistasScreen(
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
                             .focusRequester(focusRequester)
                             .testTag("PerformersSearchTextField")
                     )
@@ -207,6 +208,7 @@ fun PerformerList(
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
         modifier = modifier,
     ) {
         items(performers) {
