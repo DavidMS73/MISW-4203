@@ -47,14 +47,14 @@ class PerformersScreenTest {
     }
 
     @Test
-    fun artistasScreen_verifyContent() {
+    fun performerScreen_verifyContent() {
         for (performer in mockPerformers) {
             composeTestRule.onNodeWithText(performer.name).assertIsDisplayed()
         }
     }
 
     @Test
-    fun artistasScreen_searchForPerformer_findsPerformer() {
+    fun performerScreen_searchForPerformer_findsPerformer() {
         val searchInput = composeTestRule.onNodeWithTag("PerformersSearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpPerformer = mockPerformers[0]
@@ -69,7 +69,7 @@ class PerformersScreenTest {
     }
 
     @Test
-    fun albumesScreen_searchForPerformer_findNoPerformer() {
+    fun performerScreen_searchForPerformer_findNoPerformer() {
         val searchInput = composeTestRule.onNodeWithTag("PerformersSearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpPerformer = "No performer"
@@ -80,7 +80,7 @@ class PerformersScreenTest {
     }
 
     @Test
-    fun albumesScreen_searchForPerformer_clearSearch() {
+    fun performerScreen_searchForPerformer_clearSearch() {
         val searchInput = composeTestRule.onNodeWithTag("PerformersSearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpPerformer = mockPerformers[0]
