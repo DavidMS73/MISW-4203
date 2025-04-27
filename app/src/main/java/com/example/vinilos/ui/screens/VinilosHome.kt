@@ -11,6 +11,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -18,6 +19,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.vinilos.ui.models.BottomNavRoute
+import com.example.vinilos.ui.state.AlbumesUiState
+import com.example.vinilos.ui.state.PerformersUiState
+import com.example.vinilos.ui.viewmodels.AlbumesViewModel
+import com.example.vinilos.ui.viewmodels.PerformersViewModel
 
 val routes = listOf(
     BottomNavRoute(
@@ -37,6 +42,10 @@ val routes = listOf(
 @Composable
 fun VinilosHome(
     navController: NavController,
+    albumesViewModel: AlbumesViewModel,
+    albumesUiState: AlbumesUiState,
+    performersViewModel: PerformersViewModel,
+    performersUiState: PerformersUiState,
 ) {
     var selectedIdx by rememberSaveable { mutableIntStateOf(0) }
 
@@ -53,12 +62,16 @@ fun VinilosHome(
         when (selectedIdx) {
             0 -> AlbumesScreen(
                 innerPadding = innerPadding,
+                albumesUiState = albumesUiState,
+                viewModel = albumesViewModel,
             )
             1 -> ColeccionistasScreen(
                 innerPadding = innerPadding,
             )
             2 -> ArtistasScreen(
                 innerPadding = innerPadding,
+                performersUiState = performersUiState,
+                viewModel = performersViewModel
             )
         }
     }
