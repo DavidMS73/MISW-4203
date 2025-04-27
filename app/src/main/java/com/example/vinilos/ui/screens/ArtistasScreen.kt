@@ -61,7 +61,7 @@ import com.example.vinilos.ui.viewmodels.PerformersViewModel
 fun ArtistasScreen(
     performersUiState: PerformersUiState,
     viewModel: PerformersViewModel,
-    innerPadding: PaddingValues,
+    innerPadding: PaddingValues = PaddingValues(0.dp),
     modifier: Modifier = Modifier,
 ) {
 
