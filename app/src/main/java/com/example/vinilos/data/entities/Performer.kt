@@ -7,6 +7,6 @@ data class Performer(
     val description: String,
     val birthDate: String? = null,
     val creationDate: String? = null,
-    val albums: List<Album>? = emptyList(),
-    val performerPrizes: List<PerformerPrize>? = emptyList()
+    val albums: List<Album> = emptyList(),
+    val performerPrizes: List<PerformerPrize> = emptyList()
 )
