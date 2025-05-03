@@ -55,7 +55,7 @@ class PerformersScreenTest {
 
     @Test
     fun performerScreen_searchForPerformer_findsPerformer() {
-        val searchInput = composeTestRule.onNodeWithTag("PerformersSearchTextField")
+        val searchInput = composeTestRule.onNodeWithTag("SearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpPerformer = mockPerformers[0]
         searchInput.performTextInput(lookedUpPerformer.name)
@@ -70,7 +70,7 @@ class PerformersScreenTest {
 
     @Test
     fun performerScreen_searchForPerformer_findNoPerformer() {
-        val searchInput = composeTestRule.onNodeWithTag("PerformersSearchTextField")
+        val searchInput = composeTestRule.onNodeWithTag("SearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpPerformer = "No performer"
         searchInput.performTextInput(lookedUpPerformer)
@@ -81,7 +81,7 @@ class PerformersScreenTest {
 
     @Test
     fun performerScreen_searchForPerformer_clearSearch() {
-        val searchInput = composeTestRule.onNodeWithTag("PerformersSearchTextField")
+        val searchInput = composeTestRule.onNodeWithTag("SearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpPerformer = mockPerformers[0]
         searchInput.performTextInput(lookedUpPerformer.name)
