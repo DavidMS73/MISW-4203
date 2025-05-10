@@ -26,21 +26,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.vinilos.data.entities.Collector
 import com.example.vinilos.data.models.Response
 import com.example.vinilos.ui.components.SearchField
 import com.example.vinilos.ui.components.VinilosAppBar
+import com.example.vinilos.ui.state.CollectorsUiState
 import com.example.vinilos.ui.viewmodels.CollectorsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColeccionistasScreen(
-    innerPadding: PaddingValues,
+    collectorsUiState: CollectorsUiState,
     viewModel: CollectorsViewModel,
     modifier: Modifier = Modifier,
+    innerPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    val collectorsUiState = viewModel.uiState.collectAsState().value
     val collectorsResponse = collectorsUiState.collectorsResponse
 
     Column(
@@ -61,6 +63,7 @@ fun ColeccionistasScreen(
                 Column(
                     modifier = Modifier
                         .weight(1f)
+                        .testTag("CollectorsSuccessScreen")
                 ) {
                     Spacer(modifier = Modifier.height(12.dp))
                     SearchField(
@@ -88,7 +91,8 @@ fun ColeccionistasScreen(
                         CollectorList(
                             collectors,
                             modifier = Modifier
-                                .weight(1f),
+                                .weight(1f)
+                                .testTag("CollectorsList"),
                         )
                 }
             }
@@ -147,7 +151,8 @@ fun CollectorTile(
         onClick = {},
         modifier = modifier
             .padding(bottom = 4.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .testTag("CollectorCard-${collector.id}"),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
