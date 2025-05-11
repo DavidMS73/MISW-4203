@@ -85,7 +85,9 @@ fun AlbumDetailScreen(
                         Text(
                             text = formattedDate,
                             style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(top = 12.dp)
+                            modifier = Modifier
+                                .padding(top = 12.dp)
+                                .testTag("ReleaseDateText")
                         )
                         Text(
                             text = album.recordLabel,
