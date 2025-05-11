@@ -1,16 +1,15 @@
 package com.example.vinilos.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,25 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.request.CachePolicy
-import coil.request.ImageRequest
-import com.example.vinilos.R
 import com.example.vinilos.data.models.Response
 import com.example.vinilos.ui.components.ImageCard
 import com.example.vinilos.ui.components.VinilosAppBar
-import com.example.vinilos.ui.components.customImageLoader
-import com.example.vinilos.ui.navigation.NavigationItem
 import com.example.vinilos.ui.state.AlbumDetailUiState
-import com.example.vinilos.ui.state.AlbumesUiState
 import com.example.vinilos.ui.viewmodels.AlbumDetailViewModel
 import java.text.SimpleDateFormat
 
@@ -55,18 +43,23 @@ fun AlbumDetailScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            VinilosAppBar(
+                title = "Detalle de álbum",
+                onGoBack = { navController.navigateUp() }
+            )
+        }
     ) { innerPadding ->
 
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(bottom = innerPadding.calculateBottomPadding())
+                .verticalScroll(rememberScrollState())
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = innerPadding.calculateBottomPadding(),
+                )
         ) {
-            VinilosAppBar(
-                title = "Detalle de álbum",
-                onAddTap = {},
-            )
-
             when (albumResponse) {
                 is Response.Success -> {
                     val album = albumResponse.data
@@ -95,7 +88,7 @@ fun AlbumDetailScreen(
                             modifier = Modifier.padding(top = 12.dp)
                         )
                         Text(
-                            text = album.recordLabel.name,
+                            text = album.recordLabel,
                             style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.padding(top = 12.dp)
                         )
@@ -106,7 +99,7 @@ fun AlbumDetailScreen(
                         modifier = modifier.padding(start = 15.dp, end = 15.dp, top = 30.dp),
                     ) {
                         Text(
-                            text = album.genre.name,
+                            text = album.genre,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )

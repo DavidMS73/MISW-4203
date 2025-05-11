@@ -42,8 +42,8 @@ fun AlbumesScreen(
     albumesUiState: AlbumesUiState,
     viewModel: AlbumesViewModel,
     modifier: Modifier = Modifier,
+    onAlbumTap: (Int) -> Unit,
     innerPadding: PaddingValues = PaddingValues(0.dp),
-    navController: NavController
 ) {
     val albumesResponse = albumesUiState.albumesResponse
 
@@ -93,7 +93,9 @@ fun AlbumesScreen(
                     else
                         AlbumesList(
                             albums = albums,
-                            navController = navController,
+                            onAlbumTap = { id ->
+                                onAlbumTap(id)
+                            },
                             modifier = Modifier
                                 .weight(1f)
                                 .testTag("AlbumesList")
@@ -136,7 +138,7 @@ fun AlbumesScreen(
 fun AlbumesList(
     albums: List<Album>,
     modifier: Modifier = Modifier,
-    navController: NavController
+    onAlbumTap: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -150,7 +152,7 @@ fun AlbumesList(
                 imageUrl = it.cover,
                 title = it.name,
                 modifier = Modifier
-                    .clickable(onClick = { navController.navigate(NavigationItem.AlbumDetail.route + "/" + it.id) })
+                    .clickable(onClick = { onAlbumTap(it.id) })
                     .testTag("AlbumCard-${it.id}")
             )
         }

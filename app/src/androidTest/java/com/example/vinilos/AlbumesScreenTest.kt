@@ -38,6 +38,7 @@ class AlbumesScreenTest {
             AlbumesScreen(
                 viewModel = viewModel,
                 albumesUiState = uiState,
+                onAlbumTap = {},
             )
         }
         composeTestRule.waitUntilAtLeastOneExists(

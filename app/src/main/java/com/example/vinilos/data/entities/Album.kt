@@ -6,8 +6,8 @@ data class Album(
     val cover: String,
     val releaseDate: String,
     val description: String,
-    val genre: Genre,
-    val recordLabel: RecordLabel,
+    val genre: String,
+    val recordLabel: String,
     val tracks: List<Track>,
     val performers: List<Performer>? = emptyList(),
     val comments: List<Comment>? = emptyList()
