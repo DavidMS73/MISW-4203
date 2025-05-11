@@ -1,5 +1,6 @@
 package com.example.vinilos.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,10 +18,15 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.vinilos.data.entities.Album
 import com.example.vinilos.data.models.Response
 import com.example.vinilos.ui.state.AlbumesUiState
@@ -28,6 +34,7 @@ import com.example.vinilos.ui.viewmodels.AlbumesViewModel
 import com.example.vinilos.ui.components.ImageCard
 import com.example.vinilos.ui.components.SearchField
 import com.example.vinilos.ui.components.VinilosAppBar
+import com.example.vinilos.ui.navigation.NavigationItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,6 +43,7 @@ fun AlbumesScreen(
     viewModel: AlbumesViewModel,
     modifier: Modifier = Modifier,
     innerPadding: PaddingValues = PaddingValues(0.dp),
+    navController: NavController
 ) {
     val albumesResponse = albumesUiState.albumesResponse
 
@@ -85,6 +93,7 @@ fun AlbumesScreen(
                     else
                         AlbumesList(
                             albums = albums,
+                            navController = navController,
                             modifier = Modifier
                                 .weight(1f)
                                 .testTag("AlbumesList")
@@ -108,6 +117,7 @@ fun AlbumesScreen(
                     }
                 }
             }
+
             is Response.Loading -> {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -126,6 +136,7 @@ fun AlbumesScreen(
 fun AlbumesList(
     albums: List<Album>,
     modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -139,6 +150,7 @@ fun AlbumesList(
                 imageUrl = it.cover,
                 title = it.name,
                 modifier = Modifier
+                    .clickable(onClick = { navController.navigate(NavigationItem.AlbumDetail.route + "/" + it.id) })
                     .testTag("AlbumCard-${it.id}")
             )
         }
