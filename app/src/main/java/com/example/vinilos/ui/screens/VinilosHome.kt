@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.vinilos.ui.models.BottomNavRoute
 import com.example.vinilos.ui.state.AlbumesUiState
+import com.example.vinilos.ui.state.CollectorsUiState
 import com.example.vinilos.ui.state.PerformersUiState
 import com.example.vinilos.ui.viewmodels.AlbumesViewModel
 import com.example.vinilos.ui.viewmodels.CollectorsViewModel
@@ -47,6 +48,7 @@ fun VinilosHome(
     performersViewModel: PerformersViewModel,
     performersUiState: PerformersUiState,
     collectorsViewModel: CollectorsViewModel,
+    collectorsUiState: CollectorsUiState,
 ) {
     var selectedIdx by rememberSaveable { mutableIntStateOf(0) }
 
@@ -68,6 +70,7 @@ fun VinilosHome(
             )
             1 -> ColeccionistasScreen(
                 innerPadding = innerPadding,
+                collectorsUiState = collectorsUiState,
                 viewModel = collectorsViewModel,
             )
             2 -> ArtistasScreen(

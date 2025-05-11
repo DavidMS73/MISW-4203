@@ -24,6 +24,7 @@ fun VinilosApp(
 ) {
     val albumesUiState = albumesViewModel.uiState.collectAsState().value
     val performersUiState = performersViewModel.uiState.collectAsState().value
+    val collectorsUiState = collectorsViewModel.uiState.collectAsState().value
 
     NavHost(
         navController = navController,
@@ -38,6 +39,7 @@ fun VinilosApp(
                 performersViewModel = performersViewModel,
                 performersUiState = performersUiState,
                 collectorsViewModel = collectorsViewModel,
+                collectorsUiState = collectorsUiState
             )
         }
     }
