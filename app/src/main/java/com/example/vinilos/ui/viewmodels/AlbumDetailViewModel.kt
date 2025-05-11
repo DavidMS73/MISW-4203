@@ -10,6 +10,7 @@ import com.example.vinilos.VinilosApplication
 import com.example.vinilos.data.entities.Album
 import com.example.vinilos.data.models.Response
 import com.example.vinilos.data.repositories.AlbumesRepository
+import com.example.vinilos.ui.state.AlbumDetailUiState
 import com.example.vinilos.ui.state.AlbumesUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +24,7 @@ class AlbumDetailViewModel(
     private var id: Int,
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow<AlbumesUiState>(AlbumesUiState())
+    private val _uiState = MutableStateFlow<AlbumDetailUiState>(AlbumDetailUiState())
     val uiState = _uiState.asStateFlow()
 
     init {

@@ -1,5 +1,6 @@
 package com.example.vinilos.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,8 +33,11 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.example.vinilos.R
 import com.example.vinilos.data.models.Response
+import com.example.vinilos.ui.components.ImageCard
 import com.example.vinilos.ui.components.VinilosAppBar
 import com.example.vinilos.ui.components.customImageLoader
+import com.example.vinilos.ui.navigation.NavigationItem
+import com.example.vinilos.ui.state.AlbumDetailUiState
 import com.example.vinilos.ui.state.AlbumesUiState
 import com.example.vinilos.ui.viewmodels.AlbumDetailViewModel
 import java.text.SimpleDateFormat
@@ -41,7 +46,7 @@ import java.text.SimpleDateFormat
 @Composable
 fun AlbumDetailScreen(
     navController: NavController,
-    albumesUiState: AlbumesUiState,
+    albumesUiState: AlbumDetailUiState,
     viewModel: AlbumDetailViewModel,
     modifier: Modifier = Modifier,
     albumId: Int
@@ -69,36 +74,21 @@ fun AlbumDetailScreen(
                     val formatter = SimpleDateFormat("dd-MM-yyyy")
                     val formattedDate = formatter.format(parser.parse(album.releaseDate))
 
+                    ImageCard(
+                        imageUrl = album.cover,
+                        title = album.name,
+                        modifier = Modifier
+                            .testTag("AlbumDetailCard-${album.id}"),
+                        imageHeight = 300,
+                        imagePadding = 8,
+                        textStyleTypography = MaterialTheme.typography.titleLarge,
+                        textFontWeight = FontWeight.Bold
+                    )
+
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = modifier,
+                        modifier = modifier.fillMaxWidth(),
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(context = LocalContext.current)
-                                .data(album.cover)
-                                .crossfade(true)
-                                .memoryCacheKey(album.cover)
-                                .diskCacheKey(album.cover)
-                                .diskCachePolicy(CachePolicy.ENABLED)
-                                .memoryCachePolicy(CachePolicy.ENABLED)
-                                .build(),
-                            contentDescription = null,
-                            placeholder = painterResource(R.drawable.loading_img),
-                            error = painterResource(R.drawable.ic_broken_image),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(300.dp)
-                                .clip(RoundedCornerShape(20.dp))
-                                .padding(8.dp),
-                            imageLoader = customImageLoader(context = LocalContext.current)
-                        )
-                        Text(
-                            text = album.name,
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(top = 8.dp),
-                            fontWeight = FontWeight.Bold
-                        )
                         Text(
                             text = formattedDate,
                             style = MaterialTheme.typography.titleMedium,

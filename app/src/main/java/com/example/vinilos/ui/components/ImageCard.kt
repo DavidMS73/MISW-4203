@@ -15,6 +15,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
@@ -30,6 +32,10 @@ fun ImageCard(
     imageUrl: String,
     title: String,
     modifier: Modifier = Modifier,
+    imageHeight: Int = 162,
+    imagePadding: Int = 0,
+    textStyleTypography: TextStyle = MaterialTheme.typography.titleMedium,
+    textFontWeight: FontWeight = FontWeight.Normal
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -50,14 +56,16 @@ fun ImageCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(162.dp)
+                .height(imageHeight.dp)
+                .padding(imagePadding.dp)
                 .clip(RoundedCornerShape(8.dp)),
             imageLoader = customImageLoader(context = LocalContext.current)
         )
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 8.dp)
+            style = textStyleTypography,
+            modifier = Modifier.padding(top = 8.dp),
+            fontWeight = textFontWeight
         )
     }
 }
