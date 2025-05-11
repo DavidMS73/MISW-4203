@@ -99,9 +99,14 @@ val mockAlbums = listOf(
     )
 )
 
-object MockAlbumesApiService: AlbumesApiService {
+object MockAlbumesApiService : AlbumesApiService {
     override suspend fun getAlbumes(): List<Album> {
         delay(2000)
         return mockAlbums
+    }
+
+    override suspend fun getAlbumDetail(id: Int): Album {
+        delay(2000)
+        return mockAlbums[0]
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
 import com.example.vinilos.ui.models.BottomNavRoute
 import com.example.vinilos.ui.state.AlbumesUiState
 import com.example.vinilos.ui.state.CollectorsUiState
@@ -67,6 +68,7 @@ fun VinilosHome(
                 innerPadding = innerPadding,
                 albumesUiState = albumesUiState,
                 viewModel = albumesViewModel,
+                navController = navController,
             )
             1 -> ColeccionistasScreen(
                 innerPadding = innerPadding,
