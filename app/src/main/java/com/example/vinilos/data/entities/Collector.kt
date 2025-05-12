@@ -8,4 +8,4 @@ data class Collector (
     val favoritePerformers: List<Performer>,
     val comments: List<Comment>,
     val collectorAlbums: List<CollectorAlbum>,
-    )
+)

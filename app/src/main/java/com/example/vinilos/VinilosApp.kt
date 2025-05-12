@@ -3,38 +3,74 @@ package com.example.vinilos
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.vinilos.ui.navigation.Home
+import androidx.navigation.navArgument
+import com.example.vinilos.ui.navigation.NavigationItem
+import com.example.vinilos.ui.screens.AlbumDetailScreen
 import com.example.vinilos.ui.screens.VinilosHome
+import com.example.vinilos.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinilos.ui.viewmodels.AlbumesViewModel
+import com.example.vinilos.ui.viewmodels.CollectorsViewModel
 import com.example.vinilos.ui.viewmodels.PerformersViewModel
 
 @Composable
 fun VinilosApp(
     navController: NavHostController = rememberNavController(),
     albumesViewModel: AlbumesViewModel = viewModel(factory = AlbumesViewModel.Factory),
-    performersViewModel: PerformersViewModel = viewModel(factory = PerformersViewModel.Factory)
+    performersViewModel: PerformersViewModel = viewModel(factory = PerformersViewModel.Factory),
+    collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
 ) {
     val albumesUiState = albumesViewModel.uiState.collectAsState().value
     val performersUiState = performersViewModel.uiState.collectAsState().value
+    val collectorsUiState = collectorsViewModel.uiState.collectAsState().value
 
     NavHost(
         navController = navController,
-        startDestination = Home,
+        startDestination = NavigationItem.Home.route,
         modifier = Modifier.fillMaxSize()
     ) {
-        composable<Home> {
+        composable(NavigationItem.Home.route) {
             VinilosHome(
                 navController = navController,
                 albumesViewModel = albumesViewModel,
                 albumesUiState = albumesUiState,
                 performersViewModel = performersViewModel,
-                performersUiState = performersUiState
+                performersUiState = performersUiState,
+                collectorsViewModel = collectorsViewModel,
+                collectorsUiState = collectorsUiState
+            )
+        }
+        composable(
+            NavigationItem.AlbumDetail.route + "/{albumId}",
+            arguments = listOf(navArgument("albumId") { type = NavType.IntType })
+        ) { backStackEntry ->
+
+            val albumId = backStackEntry.arguments?.getInt("albumId")!!
+
+            // Get the application context
+            val application = LocalContext.current.applicationContext as VinilosApplication
+            val albumesRepository = application.container.albumesRepository
+
+            // Create ViewModel using the provided factory with the albumId
+            val albumDetailViewModel: AlbumDetailViewModel = viewModel(
+                factory = AlbumDetailViewModel.provideFactory(albumesRepository, albumId)
+            )
+
+            val albumDetailUiState = albumDetailViewModel.uiState.collectAsState().value
+
+            AlbumDetailScreen(
+                navController = navController,
+                viewModel = albumDetailViewModel,
+                albumesUiState = albumDetailUiState,
+                albumId = albumId
             )
         }
     }

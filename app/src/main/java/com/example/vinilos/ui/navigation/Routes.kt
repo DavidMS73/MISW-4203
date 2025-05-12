@@ -1,6 +1,11 @@
 package com.example.vinilos.ui.navigation
 
-import kotlinx.serialization.Serializable
+enum class Screen {
+    HOME,
+    ALBUM_DETAIL,
+}
 
-@Serializable
-object Home
+sealed class NavigationItem(val route: String) {
+    object Home : NavigationItem(Screen.HOME.name)
+    object AlbumDetail : NavigationItem(Screen.ALBUM_DETAIL.name)
+}

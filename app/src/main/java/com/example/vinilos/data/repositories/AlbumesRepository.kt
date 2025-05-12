@@ -9,4 +9,8 @@ class AlbumesRepository(
     suspend fun getAlbumes(): List<Album> {
         return serviceAdapter.getAlbumes()
     }
+
+    suspend fun getAlbumDetail(id: Int): Album {
+        return serviceAdapter.getAlbumDetail(id)
+    }
 }

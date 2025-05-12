@@ -2,13 +2,11 @@ package com.example.vinilos
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertAny
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -40,6 +38,7 @@ class AlbumesScreenTest {
             AlbumesScreen(
                 viewModel = viewModel,
                 albumesUiState = uiState,
+                onAlbumTap = {},
             )
         }
         composeTestRule.waitUntilAtLeastOneExists(
@@ -57,7 +56,7 @@ class AlbumesScreenTest {
 
     @Test
     fun albumesScreen_searchForAlbum_findsAlbum() {
-        val searchInput = composeTestRule.onNodeWithTag("AlbumesSearchTextField")
+        val searchInput = composeTestRule.onNodeWithTag("SearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpAlbum = mockAlbums[0]
         searchInput.performTextInput(lookedUpAlbum.name)
@@ -72,7 +71,7 @@ class AlbumesScreenTest {
 
     @Test
     fun albumesScreen_searchForAlbum_findNoAlbum() {
-        val searchInput = composeTestRule.onNodeWithTag("AlbumesSearchTextField")
+        val searchInput = composeTestRule.onNodeWithTag("SearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpAlbum = "No album"
         searchInput.performTextInput(lookedUpAlbum)
@@ -83,7 +82,7 @@ class AlbumesScreenTest {
 
     @Test
     fun albumesScreen_searchForAlbum_clearSearch() {
-        val searchInput = composeTestRule.onNodeWithTag("AlbumesSearchTextField")
+        val searchInput = composeTestRule.onNodeWithTag("SearchTextField")
         searchInput.assertIsDisplayed()
         val lookedUpAlbum = mockAlbums[0]
         searchInput.performTextInput(lookedUpAlbum.name)
