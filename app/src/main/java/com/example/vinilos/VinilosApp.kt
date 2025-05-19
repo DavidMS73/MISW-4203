@@ -15,9 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.vinilos.ui.navigation.NavigationItem
 import com.example.vinilos.ui.screens.AlbumDetailScreen
+import com.example.vinilos.ui.screens.ColeccionistaDetailScreen
 import com.example.vinilos.ui.screens.VinilosHome
 import com.example.vinilos.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinilos.ui.viewmodels.AlbumesViewModel
+import com.example.vinilos.ui.viewmodels.CollectorDetailViewModel
 import com.example.vinilos.ui.viewmodels.CollectorsViewModel
 import com.example.vinilos.ui.viewmodels.PerformersViewModel
 
@@ -71,6 +73,31 @@ fun VinilosApp(
                 viewModel = albumDetailViewModel,
                 albumesUiState = albumDetailUiState,
                 albumId = albumId
+            )
+        }
+        composable(
+            NavigationItem.CollectorDetail.route + "/{collectorId}",
+            arguments = listOf(navArgument("collectorId") { type = NavType.IntType })
+        ) { backStackEntry ->
+
+            val collectorId = backStackEntry.arguments?.getInt("collectorId")!!
+
+            // Get the application context
+            val application = LocalContext.current.applicationContext as VinilosApplication
+            val collectorRepository = application.container.collectorsRepository
+
+            // Create ViewModel using the provided factory with the collectorId
+            val collectorDetailViewModel: CollectorDetailViewModel = viewModel(
+                factory = CollectorDetailViewModel.provideFactory(collectorRepository, collectorId)
+            )
+
+            val collectorDetailUiState = collectorDetailViewModel.uiState.collectAsState().value
+
+            ColeccionistaDetailScreen(
+                navController = navController,
+                viewModel = collectorDetailViewModel,
+                collectorUiState = collectorDetailUiState,
+                collectorId = collectorId
             )
         }
     }

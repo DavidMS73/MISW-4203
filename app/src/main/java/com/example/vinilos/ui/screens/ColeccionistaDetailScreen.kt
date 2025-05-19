@@ -18,37 +18,34 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.vinilos.data.models.Response
-import com.example.vinilos.ui.components.ImageCard
 import com.example.vinilos.ui.components.VinilosAppBar
-import com.example.vinilos.ui.state.AlbumDetailUiState
-import com.example.vinilos.ui.viewmodels.AlbumDetailViewModel
-import java.text.SimpleDateFormat
+import com.example.vinilos.ui.state.CollectorDetailUiState
+import com.example.vinilos.ui.viewmodels.CollectorDetailViewModel
 
 @Composable
-fun AlbumDetailScreen(
+fun ColeccionistaDetailScreen(
     navController: NavController,
-    albumesUiState: AlbumDetailUiState,
-    viewModel: AlbumDetailViewModel,
+    collectorUiState: CollectorDetailUiState,
+    viewModel: CollectorDetailViewModel,
     modifier: Modifier = Modifier,
-    albumId: Int
+    collectorId: Int
 ) {
-    val albumResponse = albumesUiState.albumDetailResponse
+    val collectorResponse = collectorUiState.collectorDetailResponse
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             VinilosAppBar(
-                title = "Detalle de álbum",
+                title = "Detalle de coleccionista",
                 onGoBack = { navController.navigateUp() }
             )
         }
     ) { innerPadding ->
-
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -58,55 +55,36 @@ fun AlbumDetailScreen(
                     bottom = innerPadding.calculateBottomPadding(),
                 )
         ) {
-            when (albumResponse) {
+            when (collectorResponse) {
                 is Response.Success -> {
-                    val album = albumResponse.data
-                    val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                    val formatter = SimpleDateFormat("dd-MM-yyyy")
-                    val formattedDate = formatter.format(parser.parse(album.releaseDate))
-
-                    ImageCard(
-                        imageUrl = album.cover,
-                        title = album.name,
-                        modifier = Modifier
-                            .testTag("AlbumDetailCard-${album.id}"),
-                        imageHeight = 300,
-                        imagePadding = 8,
-                        textStyleTypography = MaterialTheme.typography.titleLarge,
-                        textFontWeight = FontWeight.Bold
-                    )
-
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = modifier.fillMaxWidth(),
-                    ) {
-                        Text(
-                            text = formattedDate,
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier
-                                .padding(top = 12.dp)
-                                .testTag("ReleaseDateText")
-                        )
-                        Text(
-                            text = album.recordLabel,
-                            style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier.padding(top = 12.dp)
-                        )
-                    }
+                    val collector = collectorResponse.data
+                    val formattedPhone = "Teléfono: " + collector.telephone
+                    val formattedEmail = "Correo: " + collector.email
 
                     Column(
                         horizontalAlignment = Alignment.Start,
-                        modifier = modifier.padding(start = 15.dp, end = 15.dp, top = 30.dp),
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(start = 15.dp, end = 15.dp),
                     ) {
                         Text(
-                            text = album.genre,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
+                            text = collector.name,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 30.sp,
+                            modifier = Modifier
+                                .padding(top = 12.dp)
                         )
                         Text(
-                            text = album.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(top = 12.dp)
+                            text = formattedPhone,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier
+                                .padding(top = 12.dp)
+                        )
+                        Text(
+                            text = formattedEmail,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier
+                                .padding(top = 12.dp)
                         )
                     }
                 }
@@ -119,10 +97,10 @@ fun AlbumDetailScreen(
                             .weight(1f)
                             .fillMaxWidth()
                     ) {
-                        Text(text = "Error al consultar el álbum")
+                        Text(text = "Error al consultar el coleccionista")
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(
-                            onClick = { viewModel.getAlbumDetail(albumId) }
+                            onClick = { viewModel.getCollectorDetail(collectorId) }
                         ) {
                             Text("Reintentar")
                         }
