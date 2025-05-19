@@ -37,7 +37,8 @@ class ColeccionistasScreenTest {
             val uiState = viewModel.uiState.collectAsState().value
             ColeccionistasScreen(
                 viewModel = viewModel,
-                collectorsUiState = uiState
+                collectorsUiState = uiState,
+                onCollectorClick = {}
             )
         }
         composeTestRule.waitUntilAtLeastOneExists(
