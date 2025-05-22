@@ -37,7 +37,8 @@ class PerformersScreenTest {
             val uiState = viewModel.uiState.collectAsState().value
             ArtistasScreen(
                 viewModel = viewModel,
-                performersUiState = uiState
+                performersUiState = uiState,
+                onPerformerTap = {}
             )
         }
         composeTestRule.waitUntilAtLeastOneExists(
