@@ -3,7 +3,6 @@ package com.example.vinilos
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -16,11 +15,13 @@ import androidx.navigation.navArgument
 import com.example.vinilos.ui.navigation.NavigationItem
 import com.example.vinilos.ui.screens.AlbumDetailScreen
 import com.example.vinilos.ui.screens.ColeccionistaDetailScreen
+import com.example.vinilos.ui.screens.PerformerDetailScreen
 import com.example.vinilos.ui.screens.VinilosHome
 import com.example.vinilos.ui.viewmodels.AlbumDetailViewModel
 import com.example.vinilos.ui.viewmodels.AlbumesViewModel
 import com.example.vinilos.ui.viewmodels.CollectorDetailViewModel
 import com.example.vinilos.ui.viewmodels.CollectorsViewModel
+import com.example.vinilos.ui.viewmodels.PerformerDetailViewModel
 import com.example.vinilos.ui.viewmodels.PerformersViewModel
 
 @Composable
@@ -98,6 +99,34 @@ fun VinilosApp(
                 viewModel = collectorDetailViewModel,
                 collectorUiState = collectorDetailUiState,
                 collectorId = collectorId
+            )
+        }
+        composable(
+            NavigationItem.PerformerDetail.route + "/{performerId}",
+            arguments = listOf(navArgument("performerId") { type = NavType.IntType })
+        ) { backStackEntry ->
+
+            val performerId = backStackEntry.arguments?.getInt("performerId")!!
+
+            // Get the application context
+            val application = LocalContext.current.applicationContext as VinilosApplication
+            val performerRepository = application.container.performersRepository
+
+            // Create ViewModel using the provided factory with the collectorId
+            val performerDetailViewModel: PerformerDetailViewModel = viewModel(
+                factory = PerformerDetailViewModel.provideFactory(performerRepository, performerId)
+            )
+
+            val performerDetailUiState = performerDetailViewModel.uiState.collectAsState().value
+
+            PerformerDetailScreen(
+                navController = navController,
+                viewModel = performerDetailViewModel,
+                performerUiState = performerDetailUiState,
+                performerId = performerId,
+                onAlbumTap = { albumId ->
+                    navController.navigate(NavigationItem.AlbumDetail.route + "/$albumId")
+                }
             )
         }
     }
