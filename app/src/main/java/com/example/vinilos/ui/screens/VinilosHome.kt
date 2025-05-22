@@ -83,7 +83,8 @@ fun VinilosHome(
             2 -> ArtistasScreen(
                 innerPadding = innerPadding,
                 performersUiState = performersUiState,
-                viewModel = performersViewModel
+                viewModel = performersViewModel,
+                onPerformerTap = { id -> navController.navigate(NavigationItem.PerformerDetail.route + "/" + id) }
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.example.vinilos.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ fun ArtistasScreen(
     performersUiState: PerformersUiState,
     viewModel: PerformersViewModel,
     modifier: Modifier = Modifier,
+    onPerformerTap: (Int) -> Unit,
     innerPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     val performersResponse = performersUiState.performersResponse
@@ -85,7 +87,11 @@ fun ArtistasScreen(
                         Text("No se encontraron artistas")
                     }
                     else PerformerList(
-                        performers = artistas, modifier = Modifier
+                        performers = artistas,
+                        onPerformerTap = { id ->
+                            onPerformerTap(id)
+                        },
+                        modifier = Modifier
                             .weight(1f)
                             .testTag("PerformerList")
                     )
@@ -128,6 +134,7 @@ fun ArtistasScreen(
 fun PerformerList(
     performers: List<Performer>,
     modifier: Modifier = Modifier,
+    onPerformerTap: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -141,6 +148,7 @@ fun PerformerList(
                 imageUrl = it.image,
                 title = it.name,
                 modifier = Modifier
+                    .clickable(onClick = { onPerformerTap(it.id) })
                     .testTag("PerformerCard-${it.id}")
             )
         }
