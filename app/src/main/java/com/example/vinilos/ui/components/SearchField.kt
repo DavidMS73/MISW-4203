@@ -48,7 +48,8 @@ fun SearchField(
                         .testTag("ClearButton")
                 ) {
                     Icon(
-                        Icons.Filled.Cancel, contentDescription = null,
+                        Icons.Filled.Cancel,
+                        contentDescription = "Limpiar filtro",
                     )
                 }
             }

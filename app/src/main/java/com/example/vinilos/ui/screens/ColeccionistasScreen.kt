@@ -156,14 +156,14 @@ fun CollectorTile(
 ) {
     Card(
         modifier = modifier
-            .padding(bottom = 4.dp)
+            .padding(bottom = 8.dp)
             .fillMaxWidth()
             .testTag("CollectorCard-${collector.id}"),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable(onClick = { onCollectorClick(collector.id) })
-                .padding(vertical = 8.dp)
+                .padding(vertical = 16.dp)
         ) {
             Spacer(
                 modifier = Modifier.width(16.dp),
