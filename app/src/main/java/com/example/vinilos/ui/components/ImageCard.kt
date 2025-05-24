@@ -50,7 +50,7 @@ fun ImageCard(
                 .diskCachePolicy(CachePolicy.ENABLED)
                 .memoryCachePolicy(CachePolicy.ENABLED)
                 .build(),
-            contentDescription = null,
+            contentDescription = "Imagen para $title",
             placeholder = painterResource(R.drawable.loading_img),
             error = painterResource(R.drawable.ic_broken_image),
             contentScale = ContentScale.Crop,

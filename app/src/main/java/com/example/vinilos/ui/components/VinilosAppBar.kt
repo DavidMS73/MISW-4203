@@ -44,7 +44,7 @@ fun VinilosAppBar(
                 IconButton(onClick = onGoBack) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
+                        contentDescription = "Volver",
                         tint = MaterialTheme.colorScheme.primary,
                     )
                 }
@@ -63,7 +63,7 @@ fun VinilosAppBar(
                 ) {
                     Icon(
                         Icons.Filled.Add,
-                        contentDescription = null
+                        contentDescription = "Agregar"
                     )
                 }
                 Spacer(modifier = Modifier.width(16.dp))

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,34 +22,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.vinilos.data.models.Response
 import com.example.vinilos.ui.components.ImageCard
 import com.example.vinilos.ui.components.VinilosAppBar
-import com.example.vinilos.ui.state.AlbumDetailUiState
-import com.example.vinilos.ui.viewmodels.AlbumDetailViewModel
-import java.text.SimpleDateFormat
+import com.example.vinilos.ui.state.PerformerDetailUiState
+import com.example.vinilos.ui.viewmodels.PerformerDetailViewModel
 
 @Composable
-fun AlbumDetailScreen(
+fun PerformerDetailScreen(
     navController: NavController,
-    albumesUiState: AlbumDetailUiState,
-    viewModel: AlbumDetailViewModel,
+    performerUiState: PerformerDetailUiState,
+    viewModel: PerformerDetailViewModel,
     modifier: Modifier = Modifier,
-    albumId: Int
+    performerId: Int,
+    onAlbumTap: (Int) -> Unit,
 ) {
-    val albumResponse = albumesUiState.albumDetailResponse
+    val performerResponse = performerUiState.performerDetailResponse
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             VinilosAppBar(
-                title = "Detalle de álbum",
+                title = "Detalle de artista",
                 onGoBack = { navController.navigateUp() }
             )
         }
     ) { innerPadding ->
-
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -58,56 +59,50 @@ fun AlbumDetailScreen(
                     bottom = innerPadding.calculateBottomPadding(),
                 )
         ) {
-            when (albumResponse) {
+            when (performerResponse) {
                 is Response.Success -> {
-                    val album = albumResponse.data
-                    val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                    val formatter = SimpleDateFormat("dd-MM-yyyy")
-                    val formattedDate = formatter.format(parser.parse(album.releaseDate))
-
-                    ImageCard(
-                        imageUrl = album.cover,
-                        title = album.name,
-                        modifier = Modifier
-                            .testTag("AlbumDetailCard-${album.id}"),
-                        imageHeight = 300,
-                        imagePadding = 8,
-                        textStyleTypography = MaterialTheme.typography.titleLarge,
-                        textFontWeight = FontWeight.Bold
-                    )
+                    val performer = performerResponse.data
 
                     Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag("PerformerDetailSuccessScreen")
                     ) {
-                        Text(
-                            text = formattedDate,
-                            style = MaterialTheme.typography.titleMedium,
+                        ImageCard(
+                            imageUrl = performer.image,
+                            title = performer.name,
                             modifier = Modifier
                                 .padding(top = 12.dp)
-                                .testTag("ReleaseDateText")
+                                .testTag("PerformerDetailImage")
                         )
+                        Spacer(modifier = Modifier.height(24.dp))
                         Text(
-                            text = album.recordLabel,
-                            style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier.padding(top = 12.dp)
+                            text = "Albums",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 30.sp,
+                            modifier = Modifier
+                                .padding(top = 12.dp)
                         )
-                    }
-
-                    Column(
-                        horizontalAlignment = Alignment.Start,
-                        modifier = modifier.padding(start = 15.dp, end = 15.dp, top = 30.dp),
-                    ) {
-                        Text(
-                            text = album.genre,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = album.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(top = 12.dp)
-                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                        if (performer.albums.isEmpty())
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(),
+                            ) {
+                                Text("No se encontraron albumes")
+                            }
+                        else
+                            AlbumesList(
+                                albums = performer.albums,
+                                onAlbumTap = { id ->
+                                    onAlbumTap(id)
+                                },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .testTag("PerformerAlbumsList")
+                            )
                     }
                 }
 
@@ -119,10 +114,10 @@ fun AlbumDetailScreen(
                             .weight(1f)
                             .fillMaxWidth()
                     ) {
-                        Text(text = "Error al consultar el álbum")
+                        Text(text = "Error al consultar el artista")
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(
-                            onClick = { viewModel.getAlbumDetail(albumId) }
+                            onClick = { viewModel.getPerformerDetail(performerId) }
                         ) {
                             Text("Reintentar")
                         }

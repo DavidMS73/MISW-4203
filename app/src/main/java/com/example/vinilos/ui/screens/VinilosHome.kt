@@ -72,15 +72,19 @@ fun VinilosHome(
                     navController.navigate(NavigationItem.AlbumDetail.route + "/" + id)
                 }
             )
+
             1 -> ColeccionistasScreen(
                 innerPadding = innerPadding,
                 collectorsUiState = collectorsUiState,
                 viewModel = collectorsViewModel,
+                onCollectorClick = { id -> navController.navigate(NavigationItem.CollectorDetail.route + "/" + id) }
             )
+
             2 -> ArtistasScreen(
                 innerPadding = innerPadding,
                 performersUiState = performersUiState,
-                viewModel = performersViewModel
+                viewModel = performersViewModel,
+                onPerformerTap = { id -> navController.navigate(NavigationItem.PerformerDetail.route + "/" + id) }
             )
         }
     }

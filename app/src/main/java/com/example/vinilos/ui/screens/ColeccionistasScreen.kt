@@ -1,5 +1,6 @@
 package com.example.vinilos.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import com.example.vinilos.ui.viewmodels.CollectorsViewModel
 fun ColeccionistasScreen(
     collectorsUiState: CollectorsUiState,
     viewModel: CollectorsViewModel,
+    onCollectorClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     innerPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -90,12 +92,14 @@ fun ColeccionistasScreen(
                     else
                         CollectorList(
                             collectors,
+                            onCollectorClick = { id -> onCollectorClick(id) },
                             modifier = Modifier
                                 .weight(1f)
                                 .testTag("CollectorsList"),
                         )
                 }
             }
+
             is Response.Loading -> {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -106,6 +110,7 @@ fun ColeccionistasScreen(
                     CircularProgressIndicator()
                 }
             }
+
             is Response.Error -> {
                 Column(
                     verticalArrangement = Arrangement.Center,
@@ -130,6 +135,7 @@ fun ColeccionistasScreen(
 @Composable
 fun CollectorList(
     collectors: List<Collector>,
+    onCollectorClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -137,7 +143,7 @@ fun CollectorList(
         modifier = modifier,
     ) {
         items(collectors) { collector ->
-            CollectorTile(collector)
+            CollectorTile(collector, onCollectorClick = { id -> onCollectorClick(id) })
         }
     }
 }
@@ -145,19 +151,19 @@ fun CollectorList(
 @Composable
 fun CollectorTile(
     collector: Collector,
+    onCollectorClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
-        onClick = {},
         modifier = modifier
-            .padding(bottom = 4.dp)
+            .padding(bottom = 8.dp)
             .fillMaxWidth()
             .testTag("CollectorCard-${collector.id}"),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
+            modifier = Modifier.clickable(onClick = { onCollectorClick(collector.id) })
+                .padding(vertical = 16.dp)
         ) {
             Spacer(
                 modifier = Modifier.width(16.dp),

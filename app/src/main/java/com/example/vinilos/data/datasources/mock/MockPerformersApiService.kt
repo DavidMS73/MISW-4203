@@ -2,6 +2,7 @@ package com.example.vinilos.data.datasources.mock
 
 import com.example.vinilos.data.datasources.PerformerApiService
 import com.example.vinilos.data.entities.Album
+import com.example.vinilos.data.entities.Collector
 import com.example.vinilos.data.entities.Genre
 import com.example.vinilos.data.entities.Performer
 import com.example.vinilos.data.entities.PerformerPrize
@@ -121,5 +122,10 @@ object MockPerformersApiService : PerformerApiService {
     override suspend fun getPerformers(): List<Performer> {
         delay(2000)
         return mockPerformers
+    }
+
+    override suspend fun getPerformersDetail(id: Int): Performer {
+        delay(2000)
+        return mockPerformers[0]
     }
 }

@@ -139,4 +139,9 @@ object MockCollectorsApiService : CollectorApiService {
         delay(2000) // Simulate network delay
         return mockCollectors
     }
+
+    override suspend fun getCollectorsDetail(id: Int): Collector {
+        delay(2000)
+        return mockCollectors[0]
+    }
 }
