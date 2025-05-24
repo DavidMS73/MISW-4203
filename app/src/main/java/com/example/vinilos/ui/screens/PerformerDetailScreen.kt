@@ -73,6 +73,7 @@ fun PerformerDetailScreen(
                             title = performer.name,
                             modifier = Modifier
                                 .padding(top = 12.dp)
+                                .testTag("PerformerDetailImage")
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         Text(
@@ -90,7 +91,7 @@ fun PerformerDetailScreen(
                                     .weight(1f)
                                     .fillMaxWidth(),
                             ) {
-                                Text("No se encontraron coleccionistas")
+                                Text("No se encontraron albumes")
                             }
                         else
                             AlbumesList(
